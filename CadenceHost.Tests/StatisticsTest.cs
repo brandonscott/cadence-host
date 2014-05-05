@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using CadenceHost.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CadenceHost.Tests
@@ -7,7 +9,7 @@ namespace CadenceHost.Tests
     public class StatisticsTest
     {
         [TestMethod]
-        public void TestCPU()
+        public void TestCpu()
         {
         }
     }

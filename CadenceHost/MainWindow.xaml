@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="418.06" Width="633.657" ResizeMode="NoResize" WindowStyle="None">
     <Grid>
-        <Border BorderBrush="#FF7C7C7C" BorderThickness="4,4,4,4"></Border>
-        <Image x:Name="imgLogo" Margin="10,0,500.6,330.4" Source="PulseOnlyTrimmed.png" Stretch="Fill"/>
-        <TextBlock HorizontalAlignment="Left" Name="tbAppLabel" Margin="138,24,0,0" TextWrapping="Wrap" Text="Cadence Server Host" Foreground="#FFC8C8C8" VerticalAlignment="Top" FontFamily="Gill Sans MT"  FontSize="36"/>
-
-
+        <Border BorderBrush="#FF7C7C7C" BorderThickness="4,4,4,4">
+        </Border>
+        <StackPanel Background="#ff4d4d" Margin="4,4,3.6,341.4">
+            <TextBlock HorizontalAlignment="Left" x:Name="tbAppLabel" Padding="8,12,8,8" TextWrapping="Wrap" Text="Cadence Server Host" Foreground="#FFFFFFFF" VerticalAlignment="Top" FontFamily="Gill Sans MT"  FontSize="36"/>
+        </StackPanel>
+        <TextBlock HorizontalAlignment="Left" x:Name="tbDebug" Padding="8,12,8,8" TextWrapping="Wrap" Text="Debug" Foreground="#FF7C7C7C" VerticalAlignment="Top" FontFamily="Gill Sans MT"  FontSize="22" Margin="2,77,0,0"/>
+        <TextBox Margin="10,121,9.6,10.4" BorderBrush="#FF7C7C7C"  BorderThickness="4,4,4,4" IsReadOnly="True" Name="txtDebugInfo"  Foreground="#FF7C7C7C" VerticalScrollBarVisibility="Visible"/>
     </Grid>
 </Window>
