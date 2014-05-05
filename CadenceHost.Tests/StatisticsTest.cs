@@ -11,6 +11,8 @@ namespace CadenceHost.Tests
         [TestMethod]
         public void TestCpu()
         {
+            var statsHelper = new Statistics();
+            Assert.IsNotNull(statsHelper.GetCurrentCpu());
         }
     }
 }
