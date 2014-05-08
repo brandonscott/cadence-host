@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Cadence.cs" />
     <Compile Include="Models\DebugInfo.cs" />
     <Compile Include="PubnubCore\ClientNetworkStatus.cs" />
     <Compile Include="PubnubCore\LoggingMethod.cs" />
@@ -65,7 +67,7 @@
     <Compile Include="PubnubCore\PubnubCore.cs" />
     <Compile Include="PubnubCore\PubnubWin.cs" />
     <Compile Include="PubnubCore\ReconnectState.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -74,7 +76,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\Statistics.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -108,7 +110,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="PulseOnlyTrimmed.png" />
+    <Folder Include="Enums\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

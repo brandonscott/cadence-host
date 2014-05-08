@@ -34,5 +34,17 @@ namespace CadenceHost.Properties {
                 this["ServerGUID"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ServerID {
+            get {
+                return ((int)(this["ServerID"]));
+            }
+            set {
+                this["ServerID"] = value;
+            }
+        }
     }
 }
