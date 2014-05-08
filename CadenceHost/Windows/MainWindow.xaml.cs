@@ -51,6 +51,7 @@ namespace CadenceHost.Windows
         private readonly Statistics _statsHelper;
         private readonly DispatcherTimer _timer;
         private bool _isRunning;
+        private int _serverID;
 
         public MainWindow()
         {
@@ -76,6 +77,7 @@ namespace CadenceHost.Windows
             else
             {
                 _pn.SessionUUID = Settings.Default.ServerGUID;
+                _serverID = Settings.Default.ServerID;
                 //UpdateCurrentServer();
             }
 
@@ -98,7 +100,7 @@ namespace CadenceHost.Windows
 
             var dataToSend = new NameValueCollection
             {
-                {"server_id", "2"},
+                {"server_id", _serverID.ToString()},
                 {"ram_usage", (100 -(Convert.ToDouble(_statsHelper.GetCurrentRam()) / Convert.ToDouble(_statsHelper.GetTotalRamSize()) * 100)).ToString(CultureInfo.InvariantCulture)},
                 {"cpu_usage", _statsHelper.GetCurrentCpu()},
                 {"disk_usage", "0"},
@@ -131,20 +133,26 @@ namespace CadenceHost.Windows
         /// <summary>
         /// Adds a new server to Cadence Service.
         /// </summary>
-        private static void AddNewServer()
+        private void AddNewServer()
         {
             var dataToSend = new NameValueCollection
             {
                 {"servergroup_id", "0"},
                 {"name", Environment.MachineName},
-                {"available_disk", "0"},
-                {"available_ram", "0"},
+                {"available_disk", _statsHelper.GetTotalDiskStorage()},
+                {"available_ram", _statsHelper.GetTotalRamSize()},
                 {"cpu_speed", "0"},
-                {"os_name", "0"},
-                {"os_version", "0"},
+                {"os_name", _statsHelper.GetOsName()},
+                {"os_version", _statsHelper.GetOsVersion()},
                 {"guid", Settings.Default.ServerGUID}
             };
-            Cadence.CreateServer(dataToSend);
+            //Creates the server and responds with the ID
+            var serverId  = Cadence.CreateServer(dataToSend);
+
+            Settings.Default.ServerID = serverId;
+            Settings.Default.Save();
+
+            _serverID = Settings.Default.ServerID;
         }
 
         private void OnPresenceConnect(object obj)
