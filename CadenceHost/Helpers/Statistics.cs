@@ -62,7 +62,7 @@ namespace CadenceHost.Helpers
         /// <returns>The current CPU usage</returns>
         public string GetCurrentCpu()
         {
-            return (_cpuCounter.NextValue() / 100).ToString(CultureInfo.InvariantCulture);
+            return (Math.Truncate(_cpuCounter.NextValue()) / 100).ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -71,13 +71,13 @@ namespace CadenceHost.Helpers
         /// <returns>The current RAM usage</returns>
         public string GetCurrentRam()
         {
-            return (_ramCounter.NextValue() / 100).ToString(CultureInfo.InvariantCulture);
+            return (_ramCounter.NextValue()).ToString(CultureInfo.InvariantCulture);
         }
 
         public string GetCurrentRamPercent()
         {
             return
-                ((100 - (Convert.ToDouble(GetCurrentRam())/Convert.ToDouble(GetTotalRamSize())*100))/100).ToString(CultureInfo.InvariantCulture);
+                (Math.Truncate(100 - (Convert.ToDouble(GetCurrentRam())/Convert.ToDouble(GetTotalRamSize())*100))/100).ToString(CultureInfo.InvariantCulture);
         }
 
         public String GetTotalRamSize()
