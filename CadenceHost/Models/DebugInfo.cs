@@ -1,5 +1,5 @@
 ﻿// ---------------------------------------------------------------------------------------
-//  <copyright file="App.xaml.cs" company="Cadence">
+//  <copyright file="DebugInfo.cs" company="Cadence">
 //      Copyright © 2013-2014 by Brandon Scott and Christopher Franklin.
 // 
 //      Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -22,18 +22,24 @@
 //  </copyright>
 //  ---------------------------------------------------------------------------------------
 
-#region
-
-using System.Windows;
-
-#endregion
-
-namespace CadenceHost
+namespace CadenceHost.Models
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public class DebugInfo
     {
+        private int _id;
+        public static int MasterID { get; set; }
+
+        public int ID
+        {
+            get { return _id; }
+            set
+            {
+                _id = MasterID;
+                MasterID++;
+            }
+        }
+
+        public string Type { get; set; }
+        public string Message { get; set; }
     }
 }
