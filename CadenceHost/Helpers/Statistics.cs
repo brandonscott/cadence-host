@@ -62,7 +62,7 @@ namespace CadenceHost.Helpers
         /// <returns>The current CPU usage</returns>
         public string GetCurrentCpu()
         {
-            return _cpuCounter.NextValue().ToString(CultureInfo.InvariantCulture);
+            return Convert.ToInt32(_cpuCounter.NextValue()).ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
