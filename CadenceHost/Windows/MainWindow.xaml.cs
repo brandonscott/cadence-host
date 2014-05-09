@@ -101,7 +101,7 @@ namespace CadenceHost.Windows
             var dataToSend = new NameValueCollection
             {
                 {"server_id", _serverID.ToString()},
-                {"ram_usage", (100 -(Convert.ToDouble(_statsHelper.GetCurrentRam()) / Convert.ToDouble(_statsHelper.GetTotalRamSize()) * 100)).ToString(CultureInfo.InvariantCulture)},
+                {"ram_usage", _statsHelper.GetCurrentRamPercent()},
                 {"cpu_usage", _statsHelper.GetCurrentCpu()},
                 {"disk_usage", "0"},
                 {"uptime", "0"},
