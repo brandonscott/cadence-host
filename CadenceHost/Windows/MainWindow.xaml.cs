@@ -92,9 +92,11 @@ namespace CadenceHost.Windows
 
         private void OnPulse(object sender, EventArgs e)
         {
+            var currentCpu = _statsHelper.GetCurrentCpu();
+
             AddDebugInfo(
                 String.Format("Sending Pulse to server with CPU: {0}, RAM: {1}, Disk Usage: {2} and Uptime: {3} with a Total RAM Size of: {4}",
-                    _statsHelper.GetCurrentCpu(), _statsHelper.GetCurrentRam(), "%DISK%", "%UPTIME%", _statsHelper.GetTotalRamSize()));
+                    currentCpu, _statsHelper.GetCurrentRam(), "%DISK%", "%UPTIME%", _statsHelper.GetTotalRamSize()));
 
             var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
 
@@ -102,7 +104,7 @@ namespace CadenceHost.Windows
             {
                 {"server_id", _serverID.ToString()},
                 {"ram_usage", _statsHelper.GetCurrentRamPercent()},
-                {"cpu_usage", _statsHelper.GetCurrentCpu()},
+                {"cpu_usage", currentCpu},
                 {"disk_usage", "0"},
                 {"uptime", "0"},
                 {"timestamp", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)}
