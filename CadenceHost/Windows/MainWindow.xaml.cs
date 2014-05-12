@@ -100,10 +100,10 @@ namespace CadenceHost.Windows
 
             var dataToSend = new NameValueCollection
             {
-                {"server_id", _serverID.ToString()},
+                {"server_id", _serverID.ToString(CultureInfo.InvariantCulture)},
                 {"ram_usage", _statsHelper.GetCurrentRamPercent()},
                 {"cpu_usage", _statsHelper.GetCurrentCpu()},
-                {"disk_usage", "0"},
+                {"disk_usage", _statsHelper.GetFreeDiskStorageAsPercentage()},
                 {"uptime", "0"},
                 {"timestamp", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)}
             };

@@ -39,7 +39,6 @@ namespace CadenceHost.Helpers
     {
         private readonly PerformanceCounter _cpuCounter;
         private readonly PerformanceCounter _ramCounter;
-        private readonly PerformanceCounter _totalRamCounter;
 
         public Statistics()
         {
@@ -108,8 +107,20 @@ namespace CadenceHost.Helpers
         public String GetTotalDiskStorage()
         {
             var driveInfo = new DriveInfo(@"C");
-            var freeSpaceAsMb = driveInfo.TotalSize / 1048576;
+            var totalSizeAsMb = driveInfo.TotalSize / 1048576;
+            return totalSizeAsMb.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public String GetFreeDiskStorage()
+        {
+            var driveInfo = new DriveInfo(@"C");
+            var freeSpaceAsMb = driveInfo.AvailableFreeSpace / 1048576;
             return freeSpaceAsMb.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public String GetFreeDiskStorageAsPercentage()
+        {
+            return (100-Convert.ToDouble(GetFreeDiskStorage())/Convert.ToDouble(GetTotalDiskStorage())*100).ToString(CultureInfo.InvariantCulture);
         }
 
     }
