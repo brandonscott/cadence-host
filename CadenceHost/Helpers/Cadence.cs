@@ -42,7 +42,7 @@ namespace CadenceHost.Helpers
     {
         public static readonly String ServerUri = "http://cadence-bu.cloudapp.net/servers";
         public static readonly String PulseUri = "http://cadence-bu.cloudapp.net/pulses";
-
+        public static readonly String ServerUriUpdate = "http://cadence-bu.cloudapp.net/servers/" + Properties.Settings.Default.ServerID;
         public static readonly String Username = "brandon@brandonscott.co.uk";
         public static readonly String Password = "Cadenc3!";
 
@@ -70,18 +70,21 @@ namespace CadenceHost.Helpers
         /// <param name="kvpData">The server data to update for the current server</param>
         public static void UpdateServer(NameValueCollection kvpData)
         {
-            PutRequest(kvpData);
+            PutRequest(kvpData, ServerUriUpdate);
         }
 
         /// <summary>
         /// The base Put web request to send to the server
         /// </summary>
         /// <param name="kvpData">The data to send to the server</param>
-        private static void PutRequest(NameValueCollection kvpData)
+        /// <param name="serverUriUpdate"></param>
+        private static void PutRequest(NameValueCollection kvpData, string serverUriUpdate)
         {
-            using (var wb = new WebClient())
+            var nc = new NetworkCredential("brandon@brandonscott.co.uk", "Cadenc3!");
+            string responseJson;
+            using (var wb = new WebClient { Credentials = nc })
             {
-                var response = wb.UploadValues(ServerUri, "PUT", kvpData);
+                var response = wb.UploadValues(serverUriUpdate, "PUT", kvpData);
             }
         }
 
