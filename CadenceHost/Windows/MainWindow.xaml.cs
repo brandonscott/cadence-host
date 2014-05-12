@@ -50,8 +50,8 @@ namespace CadenceHost.Windows
         private readonly Pubnub _pn;
         private readonly Statistics _statsHelper;
         private readonly DispatcherTimer _timer;
-        private bool _isRunning;
-        private int _serverID;
+        private bool _isRunning = true;
+        private int _serverId;
 
         public MainWindow()
         {
@@ -77,11 +77,12 @@ namespace CadenceHost.Windows
             else
             {
                 _pn.SessionUUID = Settings.Default.ServerGUID;
-                _serverID = Settings.Default.ServerID;
-                //UpdateCurrentServer();
+                _serverId = Settings.Default.ServerID;
+                UpdateCurrentServer();
             }
 
             UuidTextBox.Text = _pn.SessionUUID;
+            IdTextBox.Text = Settings.Default.ServerID.ToString(CultureInfo.InvariantCulture);
 
             _pn.Subscribe("test", delegate { }, delegate { }, delegate { });
             //pn.Presence<string>("test", OnUserPresence, OnPresenceConnect, OnPresenceError);
@@ -93,18 +94,18 @@ namespace CadenceHost.Windows
         private void OnPulse(object sender, EventArgs e)
         {
             AddDebugInfo(
-                String.Format("Sending Pulse to server with CPU: {0}, RAM: {1}, Disk Usage: {2} and Uptime: {3} with a Total RAM Size of: {4}",
-                    _statsHelper.GetCurrentCpu(), _statsHelper.GetCurrentRam(), "%DISK%", "%UPTIME%", _statsHelper.GetTotalRamSize()));
+                String.Format("Sending Pulse - CPU: {0}, RAM: {1}, Disk Usage: {2} and Uptime: {3}",
+                    _statsHelper.GetCurrentCpu(), _statsHelper.GetCurrentRamPercent(), _statsHelper.GetFreeDiskStorageAsPercentage(), _statsHelper.GetUptime()));
 
             var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
 
             var dataToSend = new NameValueCollection
             {
-                {"server_id", _serverID.ToString(CultureInfo.InvariantCulture)},
+                {"server_id", _serverId.ToString(CultureInfo.InvariantCulture)},
                 {"ram_usage", _statsHelper.GetCurrentRamPercent()},
                 {"cpu_usage", _statsHelper.GetCurrentCpu()},
                 {"disk_usage", _statsHelper.GetFreeDiskStorageAsPercentage()},
-                {"uptime", "0"},
+                {"uptime", _statsHelper.GetUptime().ToString(CultureInfo.InvariantCulture)},
                 {"timestamp", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)}
             };
             Cadence.SendPulse(dataToSend);
@@ -117,13 +118,13 @@ namespace CadenceHost.Windows
         {
             var dataToSend = new NameValueCollection
             {
-                {"available_disk", "0"},
-                {"available_ram", "0"},
-                {"cpu_speed", "0"},
-                {"os_name", "0"},
-                {"os_version", "0"}
+                {"available_disk", _statsHelper.GetTotalDiskStorage()},
+                {"available_ram", _statsHelper.GetTotalRamSize()},
+                {"cpu_speed", _statsHelper.GetCpuFrequency().ToString(CultureInfo.InvariantCulture)},
+                {"os_name", _statsHelper.GetOsName()},
+                {"os_version", _statsHelper.GetOsVersion()},
             };
-            Cadence.CreateServer(dataToSend);
+            Cadence.UpdateServer(dataToSend);
         }
 
         private void OnPresenceError(PubnubClientError obj)
@@ -141,7 +142,7 @@ namespace CadenceHost.Windows
                 {"name", Environment.MachineName},
                 {"available_disk", _statsHelper.GetTotalDiskStorage()},
                 {"available_ram", _statsHelper.GetTotalRamSize()},
-                {"cpu_speed", "0"},
+                {"cpu_speed", _statsHelper.GetCpuFrequency().ToString(CultureInfo.InvariantCulture)},
                 {"os_name", _statsHelper.GetOsName()},
                 {"os_version", _statsHelper.GetOsVersion()},
                 {"guid", Settings.Default.ServerGUID}
@@ -152,7 +153,7 @@ namespace CadenceHost.Windows
             Settings.Default.ServerID = serverId;
             Settings.Default.Save();
 
-            _serverID = Settings.Default.ServerID;
+            _serverId = Settings.Default.ServerID;
         }
 
         private void OnPresenceConnect(object obj)

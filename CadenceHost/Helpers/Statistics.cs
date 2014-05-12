@@ -120,8 +120,29 @@ namespace CadenceHost.Helpers
 
         public String GetFreeDiskStorageAsPercentage()
         {
-            return (100-Convert.ToDouble(GetFreeDiskStorage())/Convert.ToDouble(GetTotalDiskStorage())*100).ToString(CultureInfo.InvariantCulture);
+            return (100 - Convert.ToDouble(GetFreeDiskStorage())/Convert.ToDouble(GetTotalDiskStorage())*100).ToString(CultureInfo.InvariantCulture);
         }
 
+        public int GetUptime()
+        {
+            var uptime = new PerformanceCounter("System", "System Up Time");
+            //This would otherwise be zero
+            uptime.NextValue();
+            return Convert.ToInt32(uptime.NextValue());
+        }
+
+        public uint GetCpuFrequency()
+        {
+            var searcher = new ManagementObjectSearcher(
+            "select MaxClockSpeed from Win32_Processor");
+
+            uint freq = 0;
+
+            foreach (var item in searcher.Get())
+            {
+                freq = (uint)item["MaxClockSpeed"];
+            }
+            return freq;
+        }
     }
 }
