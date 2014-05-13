@@ -93,12 +93,13 @@ namespace CadenceHost.Windows
 
         private void OnPulse(object sender, EventArgs e)
         {
+            //We hold onto this one so we don't skip two cycles (the next one is usually 0)
             var currentCpu = _statsHelper.GetCurrentCpu();
 
             AddDebugInfo(
 
-                String.Format("Sending Pulse - CPU: {0}, RAM: {1}, Disk Usage: {2} and Uptime: {3}",
-                    _statsHelper.GetCurrentCpu(), _statsHelper.GetCurrentRamPercent(), _statsHelper.GetFreeDiskStorageAsPercentage(), _statsHelper.GetUptime()));
+                String.Format("Sending Pulse - CPU: {0}, RAM: {1}, Disk Usage: {2} and Uptime: {3}", currentCpu
+                   , _statsHelper.GetCurrentRamPercent(), _statsHelper.GetFreeDiskStorageAsPercentage(), _statsHelper.GetUptime()));
 
             var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
 
@@ -106,7 +107,7 @@ namespace CadenceHost.Windows
             {
                 {"server_id", _serverId.ToString(CultureInfo.InvariantCulture)},
                 {"ram_usage", _statsHelper.GetCurrentRamPercent()},
-                {"cpu_usage", _statsHelper.GetCurrentCpu()},
+                {"cpu_usage", currentCpu},
                 {"disk_usage", _statsHelper.GetFreeDiskStorageAsPercentage()},
                 {"uptime", _statsHelper.GetUptime().ToString(CultureInfo.InvariantCulture)},
                 {"timestamp", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)}
