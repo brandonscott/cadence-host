@@ -42,7 +42,7 @@ namespace CadenceHost.Helpers
     {
         public static readonly String ServerUri = "http://cadence-bu.cloudapp.net/servers";
         public static readonly String PulseUri = "http://cadence-bu.cloudapp.net/pulses";
-        public static readonly String ServerUriUpdate = "http://cadence-bu.cloudapp.net/servers/" + Properties.Settings.Default.ServerID;
+        public static readonly String ServerUriUpdate = "http://cadence-bu.cloudapp.net/servers/" + Properties.Settings.Default.ServerGUID;
         public static readonly String Username = "brandon@brandonscott.co.uk";
         public static readonly String Password = "Cadenc3!";
 
