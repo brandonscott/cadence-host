@@ -139,34 +139,38 @@ namespace CadenceHost.Windows
         /// </summary>
         private void AddNewServer()
         {
-            var dataToSend = new NameValueCollection
+            try
             {
-                {"servergroup_id", "0"},
-                {"name", Environment.MachineName},
-                {"available_disk", _statsHelper.GetTotalDiskStorage()},
-                {"available_ram", _statsHelper.GetTotalRamSize()},
-                {"cpu_speed", _statsHelper.GetCpuFrequency().ToString(CultureInfo.InvariantCulture)},
-                {"os_name", _statsHelper.GetOsName()},
-                {"os_version", _statsHelper.GetOsVersion()},
-                {"guid", Settings.Default.ServerGUID}
-            };
-            //Creates the server and responds with the ID
-            var serverId  = Cadence.CreateServer(dataToSend);
+                var dataToSend = new NameValueCollection
+                {
+                    {"servergroup_id", "0"},
+                    {"name", Environment.MachineName},
+                    {"available_disk", _statsHelper.GetTotalDiskStorage()},
+                    {"available_ram", _statsHelper.GetTotalRamSize()},
+                    {"cpu_speed", _statsHelper.GetCpuFrequency().ToString(CultureInfo.InvariantCulture)},
+                    {"os_name", _statsHelper.GetOsName()},
+                    {"os_version", _statsHelper.GetOsVersion()},
+                    {"guid", Settings.Default.ServerGUID}
+                };
+                //Creates the server and responds with the ID
+                var serverId = Cadence.CreateServer(dataToSend);
 
-            Settings.Default.ServerID = serverId;
-            Settings.Default.Save();
+                Settings.Default.ServerID = serverId;
+                Settings.Default.Save();
 
-            _serverId = Settings.Default.ServerID;
+                _serverId = Settings.Default.ServerID;
+            }
+            catch (Exception)
+            {       
+            }
         }
 
         private void OnPresenceConnect(object obj)
         {
-            throw new NotImplementedException();
         }
 
         private void OnUserPresence(object obj)
         {
-            throw new NotImplementedException();
         }
 
         private void AddDebugInfo(string info)
@@ -179,21 +183,26 @@ namespace CadenceHost.Windows
             });
         }
 
+        /// <summary>
+        /// Allows the entire window to be dragged no matter at which point the mouse is down
+        /// </summary>
+        /// <param name="sender">Object that sent the event</param>
+        /// <param name="e">Event Arguments</param>
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
                 DragMove();
         }
 
-        private void OnWindowClosing(object sender, CancelEventArgs e)
-        {
-            //pn.PresenceUnsubscribe<string>("test", OnUserPresence, OnPresenceConnect, OnPresenceDisconnect, OnPresenceError);
-        }
-
         private void OnPresenceDisconnect(object obj)
         {
         }
 
+        /// <summary>
+        /// Stops the pulsing timer
+        /// </summary>
+        /// <param name="sender">Object that sent the event</param>
+        /// <param name="e">Event Arguments</param>
         private void OnStatusClick(object sender, RoutedEventArgs e)
         {
             if (_isRunning)
