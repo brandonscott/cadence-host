@@ -46,6 +46,7 @@ Projects associated with this repository:
 
  * [Cadence (API)][capi]
  * [Cadence Service][csrv]
+ * [Pulse (Android App)][pulse]
 
  
 [bs]: https://github.com/brandonscott
@@ -53,3 +54,4 @@ Projects associated with this repository:
 [contrib]: ../../wiki/Contributing
 [csrv]: https://github.com/brandonscott/cadence-service
 [cwf]: https://github.com/cwfranklin
+[pulse]: https://github.com/brandonscott/pulse
