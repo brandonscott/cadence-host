@@ -9,7 +9,7 @@ Built using Visual Studio 2013 and the ReSharper plug-in.
 Contributing
 ------------
 
-Contributors are very welcome! If you got code fixes, please [submit a pull request][newpull] here on GitHub.
+Contributors are very welcome! If you have code fixes, please [submit a pull request][newpull] here on GitHub.
 
 If you want to join the development team, please contact [brandonscott][bs] on GitHub.
 
@@ -22,7 +22,7 @@ License
 
 Copyright &copy; 2014 by [Brandon Scott][bs] and [Chris Franklin][cwf].
 
-This project is licensed under the MIT license, please see the file **LICENSE** for more information.
+This project is licensed under the GNU General Public license, please see the file **LICENSE** for more information.
  
 All other trademarks are property of their respective owners.
 
